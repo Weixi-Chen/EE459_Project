@@ -1,0 +1,53 @@
+# -----------------------------------------------------------------------------
+# DE2-115 + ILI9488 SPI LCD minimal demo pin assignments
+# Target top: top_de2_115
+# Assumed wiring: LCD signals are fly-wired to GPIO_0[0..6]
+# -----------------------------------------------------------------------------
+
+# 50 MHz onboard oscillator
+set_location_assignment PIN_Y2 -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
+
+# Push button reset (active low in hardware, KEY[0])
+set_location_assignment PIN_M23 -to KEY[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[0]
+
+# -----------------------------------------------------------------------------
+# LCD SPI control/data (wired to DE2-115 GPIO_0 header)
+# GPIO_0[0] -> PIN_D25
+# GPIO_0[1] -> PIN_J22
+# GPIO_0[2] -> PIN_E26
+# GPIO_0[3] -> PIN_E25
+# GPIO_0[4] -> PIN_F24
+# GPIO_0[5] -> PIN_F23
+# GPIO_0[6] -> PIN_J21
+# -----------------------------------------------------------------------------
+
+# LCD_CS   -> GPIO_0[0]
+set_location_assignment PIN_D25 -to LCD_CS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_CS
+
+# LCD_RST  -> GPIO_0[1]
+set_location_assignment PIN_J22 -to LCD_RST
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_RST
+
+# LCD_DC   -> GPIO_0[2]
+set_location_assignment PIN_E26 -to LCD_DC
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_DC
+
+# LCD_SCK  -> GPIO_0[3]
+set_location_assignment PIN_E25 -to LCD_SCK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_SCK
+
+# LCD_MOSI -> GPIO_0[4]
+set_location_assignment PIN_F24 -to LCD_MOSI
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_MOSI
+
+# Optional LED/backlight control from FPGA (if not tied directly to 3.3V)
+# LCD_LED  -> GPIO_0[5]
+set_location_assignment PIN_F23 -to LCD_LED
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_LED
+
+# Spare test pin (optional): keep for scope probing if needed
+# set_location_assignment PIN_J21 -to SOME_DEBUG_PIN
+# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SOME_DEBUG_PIN

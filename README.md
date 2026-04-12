@@ -76,3 +76,44 @@ lcd_fill_color(color)
 ## 代码目录
 
 Verilog 与约束的规划说明见 [`rtl/README.md`](rtl/README.md) 与 [`constraints/README.md`](constraints/README.md)。
+
+## 屏幕最小联调（先不接传感器）
+
+已经提供可直接上板的最小代码（placeholder 数据）：
+
+- `rtl/top_de2_115.v`
+- `rtl/lcd/spi_byte_tx.v`
+- `rtl/lcd/ili9488_minimal_demo.v`
+
+显示内容：
+
+- `TIME 12:00:00`（每秒自增）
+- `TEMP 25.0C`（placeholder）
+- `HUMI 60.0%`（placeholder）
+- `LUX 1234 LX`（每秒自增，证明画面来自逻辑）
+
+### 你现在可以按这个顺序测
+
+1. 按你现在的飞线把 LCD 的 `CS/RESET/DC/MOSI/SCK` 分配到顶层同名端口，`LED` 直接接 3.3V。
+2. 在 Quartus 顶层设为 `top_de2_115`，把上面 3 个 `.v` 文件加入工程。
+3. 在 Pin Planner 里分配：
+   - `CLOCK_50`
+   - `KEY[0]`
+   - `LCD_CS`
+   - `LCD_RST`
+   - `LCD_DC`
+   - `LCD_SCK`
+   - `LCD_MOSI`
+   - `LCD_LED`（如果你是硬连 3.3V，也可以不分这个引脚）
+4. 全编译并下载到 DE2-115。
+5. 预期现象：
+   - 背光亮
+   - 深蓝底白字
+   - 四行文本可见（时间在跳动）
+
+### 如果屏幕没显示，先排查这 4 个点
+
+1. `JP6` 是否在 3.3V 档。
+2. LCD 逻辑线是否全是 3.3V 电平。
+3. `LCD_RST`、`LCD_DC`、`LCD_CS` 是否绑到了你实际飞线对应的 FPGA 引脚。
+4. 如果画面方向不对，可改 `ili9488_minimal_demo.v` 里的 `MADCTL` 数据（现在是 `8'h28`）。
