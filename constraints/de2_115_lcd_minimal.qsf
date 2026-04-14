@@ -13,41 +13,50 @@ set_location_assignment PIN_M23 -to KEY[0]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[0]
 
 # -----------------------------------------------------------------------------
-# LCD SPI control/data (wired to DE2-115 GPIO_0 header)
-# GPIO_0[0] -> PIN_D25
-# GPIO_0[1] -> PIN_J22
-# GPIO_0[2] -> PIN_E26
-# GPIO_0[3] -> PIN_E25
-# GPIO_0[4] -> PIN_F24
-# GPIO_0[5] -> PIN_F23
-# GPIO_0[6] -> PIN_J21
+# LCD SPI control/data (wired to DE2-115 JP5 header)
+# GPIO[0]  -> PIN_AB22
+# GPIO[1]  -> PIN_AC15
+# GPIO[2]  -> PIN_AB21
+# GPIO[3]  -> PIN_Y17
+# GPIO[4]  -> PIN_AC21
+# GPIO[5]  -> PIN_Y16 (optional LCD_LED control)
 # -----------------------------------------------------------------------------
 
-# LCD_CS   -> GPIO_0[0]
-set_location_assignment PIN_D25 -to LCD_CS
+# LCD_CS   -> GPIO[0]
+set_location_assignment PIN_AB22 -to LCD_CS
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_CS
 
-# LCD_RST  -> GPIO_0[1]
-set_location_assignment PIN_J22 -to LCD_RST
+# LCD_RST  -> GPIO[1]
+set_location_assignment PIN_AC15 -to LCD_RST
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_RST
 
-# LCD_DC   -> GPIO_0[2]
-set_location_assignment PIN_E26 -to LCD_DC
+# LCD_DC   -> GPIO[2]
+set_location_assignment PIN_AB21 -to LCD_DC
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_DC
 
-# LCD_SCK  -> GPIO_0[3]
-set_location_assignment PIN_E25 -to LCD_SCK
+# LCD_SCK  -> GPIO[3]
+set_location_assignment PIN_Y17 -to LCD_SCK
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_SCK
 
-# LCD_MOSI -> GPIO_0[4]
-set_location_assignment PIN_F24 -to LCD_MOSI
+# LCD_MOSI -> GPIO[4]
+set_location_assignment PIN_AC21 -to LCD_MOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_MOSI
 
-# Optional LED/backlight control from FPGA (if not tied directly to 3.3V)
-# LCD_LED  -> GPIO_0[5]
-set_location_assignment PIN_F23 -to LCD_LED
+# LCD_LED -> GPIO[5] (PIN_Y16), driven high by top module for constant backlight.
+# If you have tied the LCD LED pin directly to 3.3V instead, this is harmless.
+set_location_assignment PIN_Y16 -to LCD_LED
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_LED
 
-# Spare test pin (optional): keep for scope probing if needed
-# set_location_assignment PIN_J21 -to SOME_DEBUG_PIN
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SOME_DEBUG_PIN
+# -----------------------------------------------------------------------------
+# DHT20 I2C sensor (wired to GPIO_0[6..7])
+# GPIO[6]  -> PIN_AD21
+# GPIO[7]  -> PIN_AE16
+# -----------------------------------------------------------------------------
+
+# I2C_SCL -> GPIO[6]
+set_location_assignment PIN_AD21 -to I2C_SCL
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to I2C_SCL
+
+# I2C_SDA -> GPIO[7]
+set_location_assignment PIN_AE16 -to I2C_SDA
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to I2C_SDA
